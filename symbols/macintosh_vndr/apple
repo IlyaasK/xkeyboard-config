@@ -149,3 +149,99 @@ partial
 xkb_symbols "jp_pc106" {
     replace key <AB11> { [ backslash, bar ] };
 };
+
+// Internal keyboards of Apple laptops (T2 and Apple Silicon), which
+// report the Fn key and the F1..F12 keys through HID. The kernel's
+// hid_apple driver delivers these untranslated (fnmode=5): the Fn key
+// comes through as KEY_FN and the F-keys as plain F1..F12, so the
+// Fn translation can happen entirely in userspace.
+//
+// This model maps Fn onto the Level3 modifier, making Fn+F1..F12
+// produce the media keys macOS users expect while the bare F-keys
+// keep working as F-keys. The edit keys (Delete/Insert/Home/End/
+// PageUp/PageDown) are mapped here too so the model works regardless
+// of the kernel fnmode (with fnmode=5 the kernel pre-translates them
+// for the TTY and these mappings are simply never triggered).
+partial modifier_keys function_keys
+xkb_symbols "internal" {
+    include "level3(modifier_mapping)"
+
+    key <FN> {
+        type[Group1] = "ONE_LEVEL",
+        symbols[Group1] = [ ISO_Level3_Shift ]
+    };
+
+    key <FK01> {
+        type = "FOUR_LEVEL_X",
+        symbols[Group1] = [ NoSymbol, XF86MonBrightnessDown, NoSymbol, NoSymbol ]
+    };
+    key <FK02> {
+        type = "FOUR_LEVEL_X",
+        symbols[Group1] = [ NoSymbol, XF86MonBrightnessUp, NoSymbol, NoSymbol ]
+    };
+    key <FK03> {
+        type = "FOUR_LEVEL_X",
+        symbols[Group1] = [ NoSymbol, XF86TaskPane, NoSymbol, NoSymbol ]
+    };
+    key <FK04> {
+        type = "FOUR_LEVEL_X",
+        symbols[Group1] = [ NoSymbol, XF86Search, NoSymbol, NoSymbol ]
+    };
+    key <FK05> {
+        type = "FOUR_LEVEL_X",
+        symbols[Group1] = [ NoSymbol, XF86AudioMicMute, NoSymbol, NoSymbol ]
+    };
+    key <FK06> {
+        type = "FOUR_LEVEL_X",
+        symbols[Group1] = [ NoSymbol, XF86Sleep, NoSymbol, NoSymbol ]
+    };
+    key <FK07> {
+        type = "FOUR_LEVEL_X",
+        symbols[Group1] = [ NoSymbol, XF86AudioPrev, NoSymbol, NoSymbol ]
+    };
+    key <FK08> {
+        type = "FOUR_LEVEL_X",
+        symbols[Group1] = [ NoSymbol, XF86AudioPlay, NoSymbol, NoSymbol ]
+    };
+    key <FK09> {
+        type = "FOUR_LEVEL_X",
+        symbols[Group1] = [ NoSymbol, XF86AudioNext, NoSymbol, NoSymbol ]
+    };
+    key <FK10> {
+        type = "FOUR_LEVEL_X",
+        symbols[Group1] = [ NoSymbol, XF86AudioMute, NoSymbol, NoSymbol ]
+    };
+    key <FK11> {
+        type = "FOUR_LEVEL_X",
+        symbols[Group1] = [ NoSymbol, XF86AudioLowerVolume, NoSymbol, NoSymbol ]
+    };
+    key <FK12> {
+        type = "FOUR_LEVEL_X",
+        symbols[Group1] = [ NoSymbol, XF86AudioRaiseVolume, NoSymbol, NoSymbol ]
+    };
+
+    key <BKSP> {
+        type = "FOUR_LEVEL",
+        symbols[Group1] = [ BackSpace, BackSpace, Delete, Delete ]
+    };
+    key <RTRN> {
+        type = "FOUR_LEVEL",
+        symbols[Group1] = [ Return, Return, Insert, Insert ]
+    };
+    key <UP> {
+        type = "FOUR_LEVEL",
+        symbols[Group1] = [ Up, Up, Page_Up, Page_Up ]
+    };
+    key <DOWN> {
+        type = "FOUR_LEVEL",
+        symbols[Group1] = [ Down, Down, Page_Down, Page_Down ]
+    };
+    key <LEFT> {
+        type = "FOUR_LEVEL",
+        symbols[Group1] = [ Left, Left, Home, Home ]
+    };
+    key <RGHT> {
+        type = "FOUR_LEVEL",
+        symbols[Group1] = [ Right, Right, End, End ]
+    };
+};
