@@ -32,6 +32,8 @@ xkb_keycodes "qwerty" {
    alias <LatB> = <AB05>;
    alias <LatN> = <AB06>;
    alias <LatM> = <AB07>;
+
+   alias <FN> = <I472>;
 };
 
 xkb_keycodes "azerty" {

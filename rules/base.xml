@@ -1160,6 +1160,13 @@
     </model>
     <model>
       <configItem>
+        <name>apple_internal</name>
+        <description>Apple Internal Keyboard</description>
+        <vendor>Apple</vendor>
+      </configItem>
+    </model>
+    <model>
+      <configItem>
         <name>silvercrest</name>
         <description>Silvercrest Multimedia Wireless</description>
         <vendor>Silvercrest</vendor>
