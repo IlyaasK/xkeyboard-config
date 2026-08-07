@@ -66,10 +66,11 @@ xkb_keycodes "azerty" {
    alias <LatV> = <AB04>;
    alias <LatB> = <AB05>;
    alias <LatN> = <AB06>;
+
+   alias <FN> = <I472>;
 };
 
 xkb_keycodes "qwertz" {
-
    alias <LatQ> = <AD01>;
    alias <LatW> = <AD02>;
    alias <LatE> = <AD03>;
@@ -98,4 +99,6 @@ xkb_keycodes "qwertz" {
    alias <LatB> = <AB05>;
    alias <LatN> = <AB06>;
    alias <LatM> = <AB07>;
+
+   alias <FN> = <I472>;
 };

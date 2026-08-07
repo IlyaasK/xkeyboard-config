@@ -27,7 +27,7 @@ Files changed:
 - `symbols/macintosh_vndr/apple` — new `partial modifier_keys function_keys xkb_symbols "internal"`
   section: FN → `ISO_Level3_Shift`; FK01–FK12 media keys at FOUR_LEVEL_X level 2; edit keys
   (BKSP/RTRN/UP/DOWN/LEFT/RGHT) with explicit FOUR_LEVEL symbols.
-- `keycodes/aliases` — `alias <FN> = <I472>;` in the qwerty section.
+- `keycodes/aliases` — `alias <FN> = <I472>;` in **all three** sections (qwerty, azerty, qwertz).
 - `rules/0004-evdev.m_k.part` — `apple_internal = evdev`
 - `rules/0026-evdev.m_s.part` — `apple_internal = +inet(evdev)+macintosh_vndr/apple(internal)`
 - `rules/base.xml` — model metadata entry
@@ -57,6 +57,11 @@ These cost hours of archaeology. If you change any of them, re-run the full veri
    `XF86AudioMicMute` (F5, matches inet's own KEY_MICMUTE mapping).
 7. The `internal` section includes `level3(modifier_mapping)` — this exists in newer
    xkeyboard-config only; on old distros also overlay `symbols/level3` when installing.
+8. **The FN alias must exist in all three sections of `keycodes/aliases`** (qwerty, azerty,
+   qwertz). Rules select `+aliases(qwerty|azerty|qwertz)` by layout group (`$azerty` = be/fr,
+   `$qwertz` = al/ch/cz/de/hr/hu/ro/si/sk), so a qwerty-only alias silently breaks every
+   azerty/qwertz layout (`xkb_keymap_key_by_name("FN")` fails; media keys still work because
+   the F-keys themselves are real key names).
 
 ## How to test
 
