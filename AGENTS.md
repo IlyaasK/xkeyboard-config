@@ -67,7 +67,35 @@ These cost hours of archaeology. If you change any of them, re-run the full veri
 
 ## How to test
 
-### On the Asahi box (Fedora + Hyprland)
+### On the Asahi box: agent runbook (Fedora + Hyprland)
+
+First session on the M1 Pro — do these in order:
+
+1. Get the code (use the mirror, NOT upstream):
+   ```
+   git clone -b asahi git@github.com:IlyaasK/xkeyboard-config.git && cd xkeyboard-config
+   ```
+2. Static checks (no root, no session needed): `./test-on-device.sh`
+   → exit 0 / "ALL OK" expected (it passes on any machine).
+3. Install + live-switch: `./test-on-device.sh --install`
+   → sets `hid_apple.fnmode=5`, backs up `/usr/share/X11/xkb` to
+   `/tmp/xkb-x11-backup-latest.tar.gz`, installs files, switches Hyprland to the model
+   via `hyprctl keyword input:kb_model apple_internal`.
+   - If `fnmode` won't stick or the module needs reloading, the script reports it; a
+     reboot with fnmode persisted via kernel cmdline (`hid_apple.fnmode=5`) is acceptable.
+4. Synthetic e2e: `./test-on-device.sh --e2e`
+   - Needs `dnf install wev ydotool` and the `ydotoold` daemon running (root).
+   - Asserts via `wev`: Fn+F1 → `XF86MonBrightnessDown`, Fn+Up → `Prior`, Fn+BS → `Delete`,
+     bare F1 → `F1`, Shift+A → `A`.
+5. Hand-test (agent cannot automate): Fn+F1/F2 brightness (needs a Hyprland/DE binding for
+   XF86MonBrightnessDown/Up — if the screen does nothing, the binding is missing, NOT a
+   keymap failure), F3 taskpane, F5 mic mute, F6 sleep, volume keys.
+6. **Ground truth is `wev` keysyms, not screen effects.** Compositor bindings for these
+   XF86 keys are often unconfigured; absence of a visible reaction ≠ broken keymap.
+7. If something is wrong: edit the `internal` section in `symbols/macintosh_vndr/apple`,
+   re-run `./test-on-device.sh --install` and the failing check, repeat.
+8. Never push to `origin` (that is AsahiLinux). If changes must be shared, push to `mine`
+   (`git push mine asahi`). Report results + any diff to the user before any PR is opened.
 ```
 ./test-on-device.sh            # static checks: merge, compile, keysym assertions
 ./test-on-device.sh --install  # + set fnmode=5, install XKB files (backup made), live-switch Hyprland
