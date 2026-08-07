@@ -8,11 +8,13 @@ Owner workspace: `github.com/IlyaasK/xkeyboard-config` (mirror of this repo).
 ## Status (read before touching anything)
 
 - **Offline-verified**: all 12 Fn+F-key media mappings + 6 Fn+edit-key mappings compile and
-  resolve correctly in libxkbcommon (verified via `xkbcomp` + a C test program + the upstream
-  pytest suite: 2676 passed, 0 failed).
+  resolve correctly in libxkbcommon across 18 layouts including azerty/qwertz (verified via
+  `xkbcomp` + C test programs + the upstream pytest suite: 2676 passed, 0 failed).
 - **On-device testing pending**: Fedora Asahi + Hyprland on the user's M1 Pro. Use
   `./test-on-device.sh` (see below).
-- No commit has been pushed upstream yet. Changes are on the `asahi` branch of this repo.
+- Commits live on the `asahi` branch of `github.com/IlyaasK/xkeyboard-config` (remote `mine`);
+  upstream `origin` is still `AsahiLinux/xkeyboard-config`. The branch `apple-internal`
+  (2 commits off `origin/asahi`) is pushed and ready for `gh pr create --repo AsahiLinux/xkeyboard-config`.
 
 ## What the change is
 
